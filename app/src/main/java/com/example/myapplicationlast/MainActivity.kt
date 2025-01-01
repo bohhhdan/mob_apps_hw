@@ -8,16 +8,21 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputLayout
-
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 class MainActivity : AppCompatActivity() {
     private val emailEditText: EditText by lazy { findViewById(R.id.emailEditText) }
     private val passwordEditText: EditText by lazy { findViewById(R.id.passwordEditText) }
     private val emailInputLayout: TextInputLayout by lazy { findViewById(R.id.emailInputLayout) }
+
     private val passwordInputLayout: TextInputLayout by lazy { findViewById(R.id.passwordInputLayout) }
     private val loginButton: Button by lazy { findViewById(R.id.loginButton) }
     private val credentialsManager = CredentialsManager()
+    private lateinit var recipeAdapter: RecipeAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +68,7 @@ class MainActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             if (validateInput(email, password) || (email == "test@te.st" && password == "1234")) {
-                // Navigate to MainActivity
-                val intent = Intent(this, Login::class.java)
+                val intent = Intent(this, RecipesActivity::class.java)
                 startActivity(intent)
 
             }
@@ -72,5 +76,8 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
     }
+
+
 }
