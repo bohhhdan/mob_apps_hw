@@ -1,5 +1,6 @@
 package com.example.myapplicationlast
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,8 +30,12 @@ class RecipeAdapter(
         holder.recipeNameTextView.text = recipe.name
         holder.recipeDescriptionTextView.text = recipe.description
         holder.recipeImageView.setImageResource(recipe.photoResId)
+
+        // Add click listener to the item view
         holder.itemView.setOnClickListener {
-            listener.onRecipeClick(recipe.id)
+            val intent = Intent(holder.itemView.context, RecipeDetailsActivity::class.java)
+            intent.putExtra("recipe_id", recipe.id)
+            holder.itemView.context.startActivity(intent)
         }
     }
 
