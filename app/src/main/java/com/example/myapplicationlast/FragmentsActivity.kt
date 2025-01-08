@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 class FragmentsActivity : AppCompatActivity() {
 
     private lateinit var switchFragmentButton: Button
-    private var isLoginFragment = true
-
+    private val isFragmentA = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragments)
@@ -24,16 +23,16 @@ class FragmentsActivity : AppCompatActivity() {
         // Switch between fragments when the button is clicked
         switchFragmentButton = findViewById(R.id.switchFragmentButton)
         switchFragmentButton.setOnClickListener {
-            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-            val newFragment: Fragment = if (currentFragment is FragmentA) {
-                FragmentB()
+            val fragment_manager=supportFragmentManager
+            val transaction=fragment_manager.beginTransaction()
+
+            if (isFragmentA) {
+                transaction.replace(R.id.fragmentContainer, FragmentB())
             } else {
-                FragmentA()
+                transaction.replace(R.id.fragmentContainer, FragmentA())
             }
 
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, newFragment)
-                .commit()
+            transaction.commit()
         }
     }
 }
