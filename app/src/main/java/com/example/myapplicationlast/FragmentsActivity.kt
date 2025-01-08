@@ -7,7 +7,8 @@ import androidx.fragment.app.Fragment
 
 class FragmentsActivity : AppCompatActivity() {
 
-    private val switchFragmentButton: Button by lazy { findViewById(R.id.switchFragmentButton) }
+    private lateinit var switchFragmentButton: Button
+    private var isLoginFragment = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,17 +17,18 @@ class FragmentsActivity : AppCompatActivity() {
         // Start with the LoginFragment when the activity is first created
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, LoginFragment())
+                .replace(R.id.fragmentContainer, FragmentA())
                 .commit()
         }
 
         // Switch between fragments when the button is clicked
+        switchFragmentButton = findViewById(R.id.switchFragmentButton)
         switchFragmentButton.setOnClickListener {
             val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-            val newFragment: Fragment = if (currentFragment is LoginFragment) {
-                RegisterFragment()
+            val newFragment: Fragment = if (currentFragment is FragmentA) {
+                FragmentB()
             } else {
-                LoginFragment()
+                FragmentA()
             }
 
             supportFragmentManager.beginTransaction()
