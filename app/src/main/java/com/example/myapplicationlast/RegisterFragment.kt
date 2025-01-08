@@ -35,54 +35,53 @@ class RegisterFragment : Fragment() {
         registerButton = view.findViewById(R.id.loginButton)
         loginText = view.findViewById(R.id.register)
 
-        registerButton.setOnClickListener { onRegister() }
-        loginText.setOnClickListener { navigateToLogin() }
-
+        registerButton.setOnClickListener {
+            completeRegistration()
+        }
+        loginText.setOnClickListener {
+            gotoLogin()
+        }
         return view
     }
 
-    private fun onRegister() {
+
+    private fun completeRegistration() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
         // Validate email and password
         if (validateInput(email, password)) {
             val result = credentialsManager.register(email, password)
-            Toast.makeText(requireContext(), result, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show()
 
-            if (result == "Registration successful.") {
-                navigateToLogin()
+            if (result == "User Registered Successfully.") {
+                gotoLogin()
             }
         }
     }
 
+    private fun gotoLogin() {
+        val fragment = LoginFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
+    }
+
     private fun validateInput(email: String, password: String): Boolean {
         var isValid = true
-
-        // Validate email format
         if (!credentialsManager.isValidEmail(email)) {
             emailInputLayout.error = "Invalid email format"
-            isValid = false
-        } else if (credentialsManager.isUserAlreadyRegistered(email)) {
-            emailInputLayout.error = "Error: Email is already registered."
             isValid = false
         } else {
             emailInputLayout.error = null
         }
-
         if (!credentialsManager.isValidPassword(password)) {
-            passwordInputLayout.error = "Password must be at least 8 characters"
+            passwordInputLayout.error = "Invalid password"
             isValid = false
         } else {
             passwordInputLayout.error = null
         }
-
         return isValid
     }
 
-    private fun navigateToLogin() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LoginFragment())
-            .commit()
-    }
 }

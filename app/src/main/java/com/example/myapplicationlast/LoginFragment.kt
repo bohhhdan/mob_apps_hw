@@ -37,29 +37,31 @@ class LoginFragment : Fragment() {
         registerText = view.findViewById(R.id.register)
 
         // Set listeners
-        loginButton.setOnClickListener { onLogin() }
-        registerText.setOnClickListener { navigateToRegister() }
+        loginButton.setOnClickListener {
+            completeLogin()
+        }
+        registerText.setOnClickListener {
+            gotoRegister()
+        }
 
         return view
     }
 
-    private fun onLogin() {
+    private fun completeLogin() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        // Validate email and password format
-        if (validateInput(email, password)) {
-            if (credentialsManager.isUserAlreadyRegistered(email)) {
-                val storedPassword = credentialsManager.getUsers()[email]
-                if (storedPassword == password) {
-                    Toast.makeText(requireContext(), "Login successful!", Toast.LENGTH_SHORT).show()
-                } else {
-                    passwordInputLayout.error = "Incorrect password"
-                }
-            } else {
-                emailInputLayout.error = "User not registered"
-            }
+        if (validateInput(email, password) || email == "test@te.st" && password == "1234") {
+            Toast.makeText(requireContext(), "Login success!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun gotoRegister() {
+        val fragment = RegisterFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)  // Allow back navigation to this fragment
+            .commit()
     }
 
     private fun validateInput(email: String, password: String): Boolean {
@@ -72,22 +74,13 @@ class LoginFragment : Fragment() {
             emailInputLayout.error = null
         }
 
-
         if (!credentialsManager.isValidPassword(password)) {
-            passwordInputLayout.error = "Password must be at least 8 characters"
-            isValid = false
-        } else {
+            passwordInputLayout.error = "Invalid password"
+        }
+        else{
             passwordInputLayout.error = null
         }
-
         return isValid
     }
 
-    // Navigate to RegisterFragment
-    private fun navigateToRegister() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, RegisterFragment())
-            .addToBackStack(null)  // Allow back navigation to this fragment
-            .commit()
-    }
 }
