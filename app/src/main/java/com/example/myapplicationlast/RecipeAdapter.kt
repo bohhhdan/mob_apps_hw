@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +38,19 @@ class RecipeAdapter(
             intent.putExtra("recipe_id", recipe.id)
             holder.itemView.context.startActivity(intent)
         }
+
+        val share: ImageButton = holder.itemView.findViewById(R.id.buttonShare)
+
+        share.setOnClickListener {
+            listener.onShareClick(recipe.id)
+        }
+
+        val like: ImageButton = holder.itemView.findViewById(R.id.buttonLike)
+
+        like.setOnClickListener {
+            listener.onLikeClick(recipe.id)
+        }
+
     }
 
     override fun getItemCount(): Int {
