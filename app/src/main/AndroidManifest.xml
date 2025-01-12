@@ -19,7 +19,7 @@
             android:name=".RecipesActivity"
             android:exported="false" />
         <activity
-            android:name=".FragmentsActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Login"
@@ -28,7 +28,7 @@
             android:name=".RegisterWindow"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".FragmentsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

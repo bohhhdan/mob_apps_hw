@@ -29,7 +29,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         val recipes = listOf(
             Recipe(1, "Pizza", "Delicious pizza with cheese and toppings", R.drawable.food1),
             Recipe(2, "Pasta", "Creamy pasta with vegetables", R.drawable.food3),
-
+            Recipe(3, "Burger", "Another desc for burger", R.drawable.food2),
         )
         return recipes.find { it.id == recipeId }
     }

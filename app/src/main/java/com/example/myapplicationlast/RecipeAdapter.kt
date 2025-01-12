@@ -1,17 +1,17 @@
 package com.example.myapplicationlast
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class RecipeAdapter(
-    private val recipes: List<Recipe>,
     private val listener: OnRecipeClickListener
-) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+) : ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(RecipeDiffCallback()) {
 
     class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeNameTextView: TextView = itemView.findViewById(R.id.textViewName)
@@ -26,20 +26,27 @@ class RecipeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val recipe = recipes[position]
+        val recipe = getItem(position)
         holder.recipeNameTextView.text = recipe.name
         holder.recipeDescriptionTextView.text = recipe.description
         holder.recipeImageView.setImageResource(recipe.photoResId)
 
-        // Add click listener to the item view
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, RecipeDetailsActivity::class.java)
-            intent.putExtra("recipe_id", recipe.id)
-            holder.itemView.context.startActivity(intent)
+            listener.onRecipeClick(recipe.id)
         }
     }
 
-    override fun getItemCount(): Int {
-        return recipes.size
+    private class RecipeDiffCallback : DiffUtil.ItemCallback<Recipe>() {
+        override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    fun RecipesUpdater(newRecipeList: List<Recipe>) {
+        submitList(newRecipeList)
     }
 }

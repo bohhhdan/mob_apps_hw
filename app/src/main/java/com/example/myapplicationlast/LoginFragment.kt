@@ -1,5 +1,6 @@
 package com.example.myapplicationlast
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,6 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
-
-        // Initialize UI elements
         emailEditText = view.findViewById(R.id.emailEditText)
         passwordEditText = view.findViewById(R.id.passwordEditText)
         emailInputLayout = view.findViewById(R.id.emailInputLayout)
@@ -36,7 +35,7 @@ class LoginFragment : Fragment() {
         loginButton = view.findViewById(R.id.loginButton)
         registerText = view.findViewById(R.id.register)
 
-        // Set listeners
+
         loginButton.setOnClickListener { onLogin() }
         registerText.setOnClickListener { navigateToRegister() }
 
@@ -46,13 +45,20 @@ class LoginFragment : Fragment() {
     private fun onLogin() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
-
-        // Validate email and password format
+        if (email == "test@te.st" && password == "1234") {
+            val intent = Intent(requireContext(), RecipesActivity::class.java)
+            startActivity(intent)
+            return
+        }
         if (validateInput(email, password)) {
+
             if (credentialsManager.isUserAlreadyRegistered(email)) {
                 val storedPassword = credentialsManager.getUsers()[email]
                 if (storedPassword == password) {
+
                     Toast.makeText(requireContext(), "Login successful!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), RecipesActivity::class.java)
+                    startActivity(intent)
                 } else {
                     passwordInputLayout.error = "Incorrect password"
                 }
@@ -83,11 +89,11 @@ class LoginFragment : Fragment() {
         return isValid
     }
 
-    // Navigate to RegisterFragment
+
     private fun navigateToRegister() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, RegisterFragment())
-            .addToBackStack(null)  // Allow back navigation to this fragment
+            .addToBackStack(null)
             .commit()
     }
 }
