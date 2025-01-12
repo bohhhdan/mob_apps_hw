@@ -61,6 +61,13 @@ class RecipesActivity : AppCompatActivity(), OnRecipeClickListener {
         }
     }
 
+    override fun onShareClick(recipeId: Int) {
+        Toast.makeText(this, "Share button of recipe clicked: $recipeId", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onLikeClick(recipeId: Int) {
+        Toast.makeText(this, "Like button of recipe clicked: $recipeId", Toast.LENGTH_SHORT).show()
+    }
     override fun onRecipeClick(recipeId: Int) {
         Toast.makeText(this, "Recipe clicked: $recipeId", Toast.LENGTH_SHORT).show()
 
@@ -69,4 +76,5 @@ class RecipesActivity : AppCompatActivity(), OnRecipeClickListener {
             startActivity(this)
         }
     }
+
 }

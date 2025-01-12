@@ -3,6 +3,7 @@ package com.example.myapplicationlast
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -34,6 +35,19 @@ class RecipeAdapter(
         holder.itemView.setOnClickListener {
             listener.onRecipeClick(recipe.id)
         }
+
+        val share: ImageButton = holder.itemView.findViewById(R.id.buttonShare)
+
+        share.setOnClickListener {
+            listener.onShareClick(recipe.id)
+        }
+
+        val like: ImageButton = holder.itemView.findViewById(R.id.buttonLike)
+
+        like.setOnClickListener {
+            listener.onLikeClick(recipe.id)
+        }
+
     }
 
     private class RecipeDiffCallback : DiffUtil.ItemCallback<Recipe>() {
