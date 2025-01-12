@@ -53,7 +53,8 @@ class RecipesActivity : AppCompatActivity(), OnRecipeClickListener {
         lifecycleScope.launch {
             viewModel.visibleRecipesFlow.collect { recipes ->
                 if (recipes.isEmpty()) {
-                    Toast.makeText(this@RecipesActivity, "No recipes found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RecipesActivity, "No recipes found", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 recipeAdapter.RecipesUpdater(recipes)
             }
