@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class RecipeAdapter(
-    private val recipes: List<Recipe>,
+    private var recipes: List<Recipe>,
     private val listener: OnRecipeClickListener
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
@@ -55,5 +55,10 @@ class RecipeAdapter(
 
     override fun getItemCount(): Int {
         return recipes.size
+    }
+
+    fun updateData(newRecipes: List<Recipe>) {
+        this.recipes = newRecipes
+        notifyDataSetChanged()
     }
 }
